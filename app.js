@@ -11,7 +11,10 @@ app.set('view engine', 'ejs');
 
 // Routes
 const recipeRoutes = require('./routes/recipes');
-app.use('/', recipeRoutes);
+const homeRoutes = require('./routes/home');
+
+app.use('/', homeRoutes);
+app.use('/recipes', recipeRoutes);
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');

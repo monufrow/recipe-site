@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Recipe</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>Add New Recipe</h1>
+
+<form action="/recipes/add" method="POST">
+
+    <label>Recipe Name:</label><br>
+    <input type="text" name="name" required>
+    <br><br>
+
+    <label>Protein Type:</label><br>
+    <select name="protein_type" required>
+        <option value="Chicken">Chicken</option>
+        <option value="Beef">Beef</option>
+        <option value="Tofu">Tofu</option>
+        <option value="Grains">Grains</option>
+    </select>
+    <br><br>
+
+    <label>Instructions:</label><br>
+    <textarea name="instructions" rows="5" required></textarea>
+    <br><br>
+
+    <h3>Select Ingredients:</h3>
+
+    <% ingredients.forEach(ingredient => { %>
+        <div>
+            <input 
+                type="checkbox" 
+                name="ingredients" 
+                value="<%= ingredient.id %>">
+            <%= ingredient.name %>
+        </div>
+    <% }) %>
+
+    <br>
+    <button type="submit">Add Recipe</button>
+</form>
+
+<br>
+<a href="/recipes">Back to Recipes</a>
+
+</body>
+</html>

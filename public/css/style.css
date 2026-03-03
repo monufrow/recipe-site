@@ -1,0 +1,16 @@
+.tooltip {
+    position: absolute;
+    display: none;
+    background-color: black;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    max-width: 200px;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+.ingredient {
+    cursor: pointer;
+    color: darkblue;
+}
