@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Recipe Listing</title>
-</head>
-<body>
-    <a href="/recipes/add">Add New Recipe</a>
+<%- include('../partials/header', { title: 'Recipes' }) %>
 
 <h1>Recipes by Protein Type</h1>
 
 <% for (let protein in groupedRecipes) { %>
     <h2><%= protein %></h2>
-    <ul>
-        <% groupedRecipes[protein].forEach(recipe => { %>
-            <li>
-                <a href="/recipes/<%= recipe.id %>">
-                    <%= recipe.name %>
-                </a>
-            </li>
-        <% }) %>
-    </ul>
+
+    <% groupedRecipes[protein].forEach(recipe => { %>
+        <div class="card">
+            <a href="/recipes/<%= recipe.id %>">
+                <strong><%= recipe.name %></strong>
+            </a>
+        </div>
+    <% }) %>
 <% } %>
 
-</body>
-</html>
+<%- include('../partials/footer') %>

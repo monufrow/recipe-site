@@ -1,0 +1,45 @@
+<%- include('../partials/header', { title: 'Home' }) %
+
+<h1>Edit Recipe</h1>
+
+<form action="/recipes/<%= recipe.id %>/edit" method="POST">
+
+    <label>Name:</label><br>
+    <input type="text" name="name" value="<%= recipe.name %>" required>
+    <br><br>
+
+    <label>Protein Type:</label><br>
+    <select name="protein_type" required>
+        <option value="Chicken" <%= recipe.protein_type === 'Chicken' ? 'selected' : '' %>>Chicken</option>
+        <option value="Beef" <%= recipe.protein_type === 'Beef' ? 'selected' : '' %>>Beef</option>
+        <option value="Tofu" <%= recipe.protein_type === 'Tofu' ? 'selected' : '' %>>Tofu</option>
+        <option value="Grains" <%= recipe.protein_type === 'Grains' ? 'selected' : '' %>>Grains</option>
+    </select>
+    <br><br>
+
+    <label>Instructions:</label><br>
+    <textarea name="instructions" rows="5" required><%= recipe.instructions %></textarea>
+    <br><br>
+
+    <h3>Ingredients:</h3>
+
+    <% ingredients.forEach(ingredient => { %>
+        <div>
+            <input 
+                type="checkbox"
+                name="ingredients"
+                value="<%= ingredient.id %>"
+                <%= selectedIds.includes(ingredient.id) ? 'checked' : '' %>
+            >
+            <%= ingredient.name %>
+        </div>
+    <% }) %>
+
+    <br>
+    <button type="submit">Update Recipe</button>
+</form>
+
+<br>
+<a href="/recipes/<%= recipe.id %>">Cancel</a>
+
+<%- include('../partials/footer') %>

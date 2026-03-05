@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Recipe Dashboard</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+<%- include('../partials/header', { title: 'Home' }) %>
 
 <h1>Recipe Dashboard</h1>
-
-<h2>Recipes by Protein Type</h2>
 
 <ul>
     <% proteinSummary.forEach(item => { %>
@@ -19,11 +11,4 @@
     <% }) %>
 </ul>
 
-<br>
-
-<a href="/recipes">View All Recipes</a>
-<br>
-<a href="/recipes/add">Add New Recipe</a>
-
-</body>
-</html>
+<%- include('../partials/footer') %>

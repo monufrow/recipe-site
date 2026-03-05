@@ -1,32 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title><%= recipe.name %></title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<div id="tooltip" class="tooltip"></div>
-<script src="/js/main.js"></script>
-<body>
+<%- include('../partials/header', { title: recipe.name }) %>
 
-<h1><%= recipe.name %></h1>
+<div class="card">
+    <h1><%= recipe.name %></h1>
+    <p><strong>Protein:</strong> <%= recipe.protein_type %></p>
+    <a class="btn-secondary" href="/recipes/<%= recipe.id %>/edit">Edit</a>
+</div>
 
-<h3>Protein Type: <%= recipe.protein_type %></h3>
-
-<h2>Ingredients</h2>
-<ul>
-    <% ingredients.forEach(ingredient => { %>
-        <li>
-            <span class="ingredient" data-info="<%= ingredient.info %>">
+<div class="card">
+    <h2>Ingredients</h2>
+    <ul>
+        <% ingredients.forEach(ingredient => { %>
+            <li class="tooltip">
                 <%= ingredient.name %>
-            </span>
-        </li>
-    <% }) %>
-</ul>
+                <span class="tooltiptext">
+                    <%= ingredient.description %>
+                </span>
+            </li>
+        <% }) %>
+    </ul>
+</div>
 
-<h2>Instructions</h2>
-<p><%= recipe.instructions %></p>
+<div class="card">
+    <h2>Instructions</h2>
+    <p><%= recipe.instructions %></p>
+</div>
 
-<a href="/recipes">Back to Recipes</a>
+<a href="/recipes">← Back to Recipes</a>
 
-</body>
-</html>
+<%- include('../partials/footer') %>

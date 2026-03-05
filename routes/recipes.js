@@ -84,6 +84,97 @@ router.post('/add', (req, res) => {
     });
 });
 
+//Edit recipe page
+router.get('/:id/edit', (req, res) => {
+    const recipeId = req.params.id;
+
+    const recipeSql = `
+        SELECT * FROM recipes WHERE id = ?
+    `;
+
+    const ingredientsSql = `
+        SELECT * FROM ingredients ORDER BY name
+    `;
+
+    const selectedSql = `
+        SELECT ingredient_id
+        FROM recipe_ingredients
+        WHERE recipe_id = ?
+    `;
+
+    db.query(recipeSql, [recipeId], (err, recipeResults) => {
+        if (err) throw err;
+        if (recipeResults.length === 0) return res.send("Recipe not found");
+
+        db.query(ingredientsSql, (err, allIngredients) => {
+            if (err) throw err;
+
+            db.query(selectedSql, [recipeId], (err, selectedIngredients) => {
+                if (err) throw err;
+
+                const selectedIds = selectedIngredients.map(i => i.ingredient_id);
+
+                res.render('pages/editRecipe', {
+                    recipe: recipeResults[0],
+                    ingredients: allIngredients,
+                    selectedIds: selectedIds
+                });
+            });
+        });
+    });
+});
+// Post for editing recipe
+router.post('/:id/edit', (req, res) => {
+    const recipeId = req.params.id;
+    const { name, protein_type, instructions } = req.body;
+
+    let selectedIngredients = req.body.ingredients;
+
+    if (!selectedIngredients) {
+        selectedIngredients = [];
+    } else if (!Array.isArray(selectedIngredients)) {
+        selectedIngredients = [selectedIngredients];
+    }
+
+    const updateSql = `
+        UPDATE recipes
+        SET name = ?, protein_type = ?, instructions = ?
+        WHERE id = ?
+    `;
+
+    db.query(updateSql, [name, protein_type, instructions, recipeId], (err) => {
+        if (err) throw err;
+
+        const deleteJoinSql = `
+            DELETE FROM recipe_ingredients
+            WHERE recipe_id = ?
+        `;
+
+        db.query(deleteJoinSql, [recipeId], (err) => {
+            if (err) throw err;
+
+            if (selectedIngredients.length === 0) {
+                return res.redirect('/recipes/' + recipeId);
+            }
+
+            const values = selectedIngredients.map(ingredientId => {
+                return [recipeId, ingredientId];
+            });
+
+            const insertJoinSql = `
+                INSERT INTO recipe_ingredients (recipe_id, ingredient_id)
+                VALUES ?
+            `;
+
+            db.query(insertJoinSql, [values], (err) => {
+                if (err) throw err;
+
+                res.redirect('/recipes/' + recipeId);
+            });
+        });
+    });
+});
+
 // Individual recipe page
 router.get('/:id', (req, res) => {
     const recipeId = req.params.id;
