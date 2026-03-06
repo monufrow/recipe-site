@@ -62,6 +62,9 @@ router.post('/add', (req, res) => {
         if (err) throw err;
 
         const recipeId = result.insertId;
+        if (!name || !protein_type || !instructions) {
+            return res.send("All fields are required.");
+        }
 
         if (selectedIngredients.length === 0) {
             return res.redirect('/recipes/' + recipeId);

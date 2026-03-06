@@ -2,13 +2,14 @@
 
 <h1>Recipe Dashboard</h1>
 
-<ul>
-    <% proteinSummary.forEach(item => { %>
-        <li>
-            <%= item.protein_type %>:
-            <%= item.count %> recipes
-        </li>
-    <% }) %>
-</ul>
+
+<div class="card-grid">
+<% proteinSummary.forEach(item => { %>
+    <div class="card">
+        <h3><%= item.protein_type %></h3>
+        <p><%= item.count %> recipes</p>
+    </div>
+<% }) %>
+</div>
 
 <%- include('../partials/footer') %>
